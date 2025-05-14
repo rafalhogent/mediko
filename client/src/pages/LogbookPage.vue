@@ -3,6 +3,7 @@ import { QTableProps } from "quasar";
 import { Log, Logbook } from "src/models/logbook/logbook";
 import { LogbookLocalService } from "src/services/local/logbook.local.service";
 import { computed, onMounted, onUnmounted, Ref, ref } from "vue";
+import EditLog from "src/components/logbook/EditLog.vue";
 import { DateTime } from "luxon";
 import { useAppStore } from "src/stores/app.store";
 import _ from "lodash";
@@ -77,6 +78,43 @@ const columns = computed(() => {
 //#endregion
 
 //#region hooks, handlers
+const editLog = (evt: Event, row: any, index?: number) => {
+  currentLog.value = row;
+  showDialog.value = true;
+};
+
+const onDialogSubmitted = (log: Log) => {
+  const ourLogbook = logbooks.value.find(
+    (lb) => lb.id == currentLogbook.value?.id
+  );
+  if (ourLogbook && log) {
+    const myLog = ourLogbook.logs.find((l) => l.id == log.id);
+    if (myLog) {
+      myLog.update(log);
+    } else {
+      ourLogbook.logs.push(log);
+    }
+  }
+  currentLog.value = undefined;
+};
+
+const onDeleteLog = (id: string) => {
+  const ourLogbook = logbooks.value.find(
+    (lb) => lb.id == currentLogbook.value?.id
+  );
+  if (ourLogbook && id) {
+    let idx: number | undefined = undefined;
+    const ourLog = ourLogbook.logs.find((l, i) => {
+      idx = i;
+      return l.id == id;
+    });
+
+    if (idx) ourLogbook.logs.splice(idx, 1);
+    currentLog.value = undefined;
+    showDialog.value = false;
+  }
+};
+
 onMounted(() => {
   logbooks.value = LogbookLocalService.getLocalLogbooks();
   const tabs = logbooks.value
@@ -120,14 +158,29 @@ onUnmounted(() => {
         row-key="index"
         virtual-scroll
         :rows-per-page-options="[0]"
+        v-on:row-click="editLog"
       >
         <template v-slot:top>
           <h6 class="q-my-md text-uppercase">
             {{ currentLogbook?.name ? currentLogbook.name : "?" }}
           </h6>
           <q-space />
+          <q-btn
+            color="primary"
+            icon="add"
+            :disable="false"
+            @click="editLog"
+          />
         </template>
       </q-table>
     </div>
   </q-page>
+  <q-dialog v-model="showDialog">
+    <EditLog
+      v-bind:logbook="currentLogbook"
+      v-bind:log="currentLog"
+      @submited="onDialogSubmitted"
+      @delete="onDeleteLog"
+    />
+  </q-dialog>
 </template>

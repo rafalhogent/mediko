@@ -118,5 +118,48 @@ export class LogbookLocalService {
     return [];
   }
 
+  static getAllLogbooksData() {
+    const localLogbooksData = LocalStorage.getItem(DEF_LOGBOOKS) as any[];
+    const logbooks = plainToInstance(Logbook, localLogbooksData);
+    return logbooks;
+  }
 
+  static saveLogbooksData(logbooks: Logbook[]) {
+    LocalStorage.setItem(DEF_LOGBOOKS, logbooks);
+  }
+
+  static upsertLog(lg: Log, logBookId: string) {
+    const logBooks = LogbookLocalService.getLocalLogbooks();
+    const ourLogbook = logBooks.find((lb) => lb.id == logBookId);
+    if (ourLogbook) {
+      const existingLog = ourLogbook.logs.find((l) => l.id == lg.id);
+      if (existingLog) {
+        existingLog.update(lg);
+      } else {
+        ourLogbook.logs.push(lg);
+      }
+      LogbookLocalService.saveLogbooksData(logBooks);
+    } else {
+      throw new Error("Logbook not found");
+    }
+  }
+
+  static removeLog(id: string, logBookId: string) {
+    const logBooks = LogbookLocalService.getLocalLogbooks();
+    const ourLogbook = logBooks.find((lb) => lb.id == logBookId);
+    if (ourLogbook) {
+      const existingLog = ourLogbook.logs.find((l) => l.id == id);
+      if (existingLog) {
+        existingLog.makeDeleted();
+        LogbookLocalService.saveLogbooksData(logBooks);
+      }
+    } else {
+      throw new Error("Logbook not found");
+    }
+  }
+
+  static clearLocalLogbooksData() {
+    LocalStorage.removeItem(DEF_LOGBOOKS);
+    this.ensureDefaultLogbooks();
+  }
 }
