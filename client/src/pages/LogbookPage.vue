@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { QTableProps } from "quasar";
-import { Log, Logbook } from "src/models/logbook/logbook";
+import { Logbook } from "src/models/logbook/logbook";
+import { Log } from "src/models/logbook/log";
 import { LogbookLocalService } from "src/services/local/logbook.local.service";
 import { computed, onMounted, onUnmounted, Ref, ref } from "vue";
 import EditLog from "src/components/logbook/EditLog.vue";
@@ -165,12 +166,7 @@ onUnmounted(() => {
             {{ currentLogbook?.name ? currentLogbook.name : "?" }}
           </h6>
           <q-space />
-          <q-btn
-            color="primary"
-            icon="add"
-            :disable="false"
-            @click="editLog"
-          />
+          <q-btn color="primary" icon="add" :disable="false" @click="editLog" />
         </template>
       </q-table>
     </div>

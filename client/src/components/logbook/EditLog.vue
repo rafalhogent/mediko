@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { DateTime } from "luxon";
-import { Log, Logbook } from "src/models/logbook/logbook";
+import { Log } from "src/models/logbook/log";
+import { Logbook } from "src/models/logbook/logbook";
 import { LogbookLocalService } from "src/services/local/logbook.local.service";
 import { onMounted, Ref, ref } from "vue";
 

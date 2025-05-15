@@ -1,9 +1,10 @@
 import { LocalStorage } from "quasar";
-import { Log, Logbook } from "src/models/logbook/logbook";
+import { Logbook } from "src/models/logbook/logbook";
 import { DEF_LOGBOOKS } from "./local-keys";
 import { DateTime } from "luxon";
 import { plainToInstance } from "class-transformer";
 import { v4 as uuidv4 } from "uuid";
+import { Log } from "src/models/logbook/log";
 
 export class LogbookLocalService {
   static ensureDefaultLogbooks() {
