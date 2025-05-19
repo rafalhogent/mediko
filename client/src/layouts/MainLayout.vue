@@ -94,6 +94,12 @@ const linksList: EssentialLinkProps[] = [
     icon: "code",
     link: "https://github.com/rafalhogent/medikohogent",
   },
+  {
+    title: "Settings",
+    caption: "Application aettings",
+    icon: "mdi-folder-wrench-outline",
+    route: "/settings/main",
+  },
 ];
 
 const leftDrawerOpen = ref(false);
