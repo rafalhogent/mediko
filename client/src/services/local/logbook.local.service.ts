@@ -159,6 +159,44 @@ export class LogbookLocalService {
     }
   }
 
+  static upsertLogbookDefinition(model: Logbook) {
+    const logbooks = plainToInstance(
+      Logbook,
+      LogbookLocalService.getAllLogbooksData()
+    );
+
+    const nameExists = logbooks.some(
+      (l) =>
+        l.id != model.id &&
+        l.name &&
+        model.name &&
+        l.name.toLowerCase() == model.name.toLowerCase()
+    );
+    if (nameExists) {
+      throw new Error("Logbook with the same name already exists");
+    }
+    if (!model.id) {
+      const newLogbook = new Logbook();
+      newLogbook.update(model);
+      logbooks.push(newLogbook);
+    } else {
+      const ourLogbook = logbooks.find((lb) => lb.id === model.id);
+      if (ourLogbook) {
+        ourLogbook.update(model);
+      }
+    }
+    LogbookLocalService.saveLogbooksData(logbooks);
+  }
+
+  static removeLogbook(logbookId: string) {
+    const logbooks = LogbookLocalService.getAllLogbooksData();
+    const ourLogbook = logbooks.find((lb) => lb.id == logbookId);
+    if (ourLogbook) {
+      ourLogbook.makeDeleted();
+      LogbookLocalService.saveLogbooksData(logbooks);
+    }
+  }
+
   static clearLocalLogbooksData() {
     LocalStorage.removeItem(DEF_LOGBOOKS);
     this.ensureDefaultLogbooks();
