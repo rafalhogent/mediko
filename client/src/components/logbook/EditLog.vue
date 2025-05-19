@@ -3,7 +3,9 @@ import { DateTime } from "luxon";
 import { Log } from "src/models/logbook/log";
 import { Logbook } from "src/models/logbook/logbook";
 import { LogbookLocalService } from "src/services/local/logbook.local.service";
+import { useAppStore } from "src/stores/app.store";
 import { onMounted, Ref, ref } from "vue";
+const store = useAppStore();
 
 //#region types, props
 export interface EditLogProps {
@@ -62,7 +64,7 @@ const submitForm = () => {
     try {
       LogbookLocalService.upsertLog(lg, props.logbook.id);
     } catch (error: any) {
-      console.log("Failed to save Log", error.message);
+      store.handleError('Failed to save Log', error.message);
     } finally {
       emit("submited", lg);
     }

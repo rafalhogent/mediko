@@ -32,8 +32,9 @@ const viewModel: Ref<Logbook> = ref({ name: "" } as Logbook);
 const submitForm = () => {
   try {
     LogbookLocalService.upsertLogbookDefinition(viewModel.value);
+    store.handleSuccess(`Logbook ${viewModel.value.name} saved`)
   } catch (error: any) {
-    console.log("Failed to save Logbook definition", error.message);
+    store.handleError('Failed to save Logbook definition', error.message);
   } finally {
     emit("submitted");
   }

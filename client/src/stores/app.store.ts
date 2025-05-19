@@ -1,5 +1,11 @@
 import { defineStore } from "pinia";
-import { QBreadcrumbsElProps, QTabProps, useQuasar } from "quasar";
+import {
+  Notify,
+  QBreadcrumbsElProps,
+  QNotifyCreateOptions,
+  QTabProps,
+  useQuasar,
+} from "quasar";
 import { Ref, ref } from "vue";
 
 export const useAppStore = defineStore("appStore", () => {
@@ -34,6 +40,40 @@ export const useAppStore = defineStore("appStore", () => {
   };
   //#endregion
 
+  //#region ui & notif handlers
+  const handleSuccess = (message: string, caption?: string | undefined) => {
+    const opts: QNotifyCreateOptions = {
+      message: message,
+      type: "positive",
+      actions: [
+        {
+          icon: "close",
+          color: "white",
+          round: true,
+        },
+      ],
+    };
+    if (caption) opts.caption = caption;
+    Notify.create(opts);
+  };
+
+  const handleError = (message: string, caption?: string) => {
+    const opts: QNotifyCreateOptions = {
+      message: message,
+      type: "negative",
+      actions: [
+        {
+          icon: "close",
+          color: "white",
+          round: true,
+        },
+      ],
+    };
+    if (caption) opts.caption = caption;
+    Notify.create(opts);
+  };
+  //#endregion
+
   return {
     toolbarTabs,
     selectedTab,
@@ -41,5 +81,7 @@ export const useAppStore = defineStore("appStore", () => {
     settingsCrumb,
     settingsCrumbs,
     logbooksCrumb,
+    handleError,
+    handleSuccess
   };
 });
