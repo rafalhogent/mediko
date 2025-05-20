@@ -9,6 +9,7 @@
   "scripts": {
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
+    "electron-linux": "quasar dev -m electron -- --gtk-version=3",
     "build": "quasar build",
     "postinstall": "quasar prepare"
   },
@@ -25,11 +26,13 @@
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
+    "@electron/packager": "^18.3.6",
     "@quasar/app-vite": "^2.1.0",
     "@types/lodash": "^4.17.16",
     "@types/luxon": "^3.6.2",
     "@types/node": "^20.5.9",
     "autoprefixer": "^10.4.2",
+    "electron": "^36.2.1",
     "typescript": "~5.5.3"
   },
   "engines": {
