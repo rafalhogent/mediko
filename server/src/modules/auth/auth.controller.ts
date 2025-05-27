@@ -7,6 +7,7 @@ import {
   UseGuards,
   Request,
   Get,
+  Headers,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
@@ -36,5 +37,12 @@ export class AuthController {
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
+  }
+
+  @Public()
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  refreshTokens(@Headers() headers) {
+    return this.authService.refreshTokens(headers.authorization);
   }
 }
