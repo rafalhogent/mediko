@@ -62,7 +62,19 @@
                 :title="link.title"
               />
             </div>
-            <div class="bottom-links q-py-lg"></div>
+            <div class="bottom-links q-py-lg">
+              <EssentialLink
+                icon="mdi-account-circle"
+                :key="'Account'"
+                :title="appStore.username?.toUpperCase() ?? 'Account'"
+                :route="'/settings/account'"
+                :caption="
+                  appStore.username
+                    ? 'ONLINE'
+                    : 'OFFLINE'
+                "
+              />
+            </div>
           </div>
         </div>
       </q-scroll-area>
