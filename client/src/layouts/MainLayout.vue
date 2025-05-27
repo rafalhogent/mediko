@@ -62,7 +62,19 @@
                 :title="link.title"
               />
             </div>
-            <div class="bottom-links q-py-lg"></div>
+            <div class="bottom-links q-py-lg">
+              <EssentialLink
+                icon="mdi-account-circle"
+                :key="'Account'"
+                :title="appStore.username?.toUpperCase() ?? 'Account'"
+                :route="'/settings/account'"
+                :caption="
+                  appStore.username
+                    ? 'ONLINE'
+                    : 'OFFLINE'
+                "
+              />
+            </div>
           </div>
         </div>
       </q-scroll-area>
@@ -75,11 +87,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import EssentialLink, {
   type EssentialLinkProps,
 } from "components/EssentialLink.vue";
 import { useAppStore } from "src/stores/app.store";
+import { LogbookLocalService } from "src/services/local/logbook.local.service";
+import Factory from "src/services/service-factory";
 
 const linksList: EssentialLinkProps[] = [
   {
@@ -107,4 +121,10 @@ const appStore = useAppStore();
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
+
+onMounted(() => {
+  LogbookLocalService.ensureDefaultLogbooks();
+  Factory.getAuthService().loadAuthDataFromStorage();
+  const srv = Factory.getAuthService().ensureBackendUrlLoaded();
+});
 </script>

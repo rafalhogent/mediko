@@ -23,6 +23,15 @@ const settingsItems: {
       router.push("/settings/logbooks");
     },
   },
+  {
+    icon: "mdi-cloud-outline",
+    label: "Account & Server Settings",
+    description: "Manage online account & cloud server settings",
+    to: "/settings/logbooks",
+    action: () => {
+      router.push("/settings/account");
+    },
+  },
 ];
 
 onMounted(() => {

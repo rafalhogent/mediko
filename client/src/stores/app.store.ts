@@ -12,6 +12,8 @@ export const useAppStore = defineStore("appStore", () => {
   const $q = useQuasar();
   const toolbarTabs: Ref<QTabProps[]> = ref([]);
   const selectedTab = ref("");
+  const username: Ref<string | undefined> = ref();
+  const serverAddress: Ref<string | undefined> = ref();
 
   //#region settings
 
@@ -30,6 +32,14 @@ export const useAppStore = defineStore("appStore", () => {
     activeClass: "",
     onClick: (e: Event) => {
       settingsCrumbs.value = [settingsCrumb, logbooksCrumb];
+    },
+  };
+  const accountCrumb: QBreadcrumbsElProps = {
+    label: 'Account & Server',
+    icon: 'mdi-cloud-outline',
+    to: '/settings/account',
+    onClick: (e: Event) => {
+      settingsCrumbs.value = [settingsCrumb, accountCrumb];
     },
   };
 
@@ -82,6 +92,9 @@ export const useAppStore = defineStore("appStore", () => {
     settingsCrumbs,
     logbooksCrumb,
     handleError,
-    handleSuccess
+    handleSuccess,
+    serverAddress,
+    username,
+    accountCrumb,
   };
 });
