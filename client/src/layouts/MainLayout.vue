@@ -75,11 +75,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import EssentialLink, {
   type EssentialLinkProps,
 } from "components/EssentialLink.vue";
 import { useAppStore } from "src/stores/app.store";
+import { LogbookLocalService } from "src/services/local/logbook.local.service";
+import Factory from "src/services/service-factory";
 
 const linksList: EssentialLinkProps[] = [
   {
@@ -107,4 +109,10 @@ const appStore = useAppStore();
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
+
+onMounted(() => {
+  LogbookLocalService.ensureDefaultLogbooks();
+  Factory.getAuthService().loadAuthDataFromStorage();
+  const srv = Factory.getAuthService().ensureBackendUrlLoaded();
+});
 </script>
