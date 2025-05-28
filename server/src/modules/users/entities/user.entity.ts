@@ -1,7 +1,9 @@
+import { Logbook } from '@/modules/logbook/entities/logbook.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,6 +24,9 @@ class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Logbook, (l) => l.owner)
+  logbooks: Logbook[];
 }
 
 export default User;

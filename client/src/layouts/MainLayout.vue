@@ -125,6 +125,6 @@ function toggleLeftDrawer() {
 onMounted(() => {
   LogbookLocalService.ensureDefaultLogbooks();
   Factory.getAuthService().loadAuthDataFromStorage();
-  const srv = Factory.getAuthService().ensureBackendUrlLoaded();
+  Factory.getAuthService().ensureBackendUrlLoaded();
 });
 </script>

@@ -13,6 +13,16 @@ const showLoginDialog = ref(false);
 const showRegisterDialog = ref(false);
 const showServerEditDialog = ref(false);
 
+const isSyncing = ref(false);
+const onSyncClick = async () => {
+  isSyncing.value = true;
+  Factory.getSyncService()
+    .syncAllData()
+    .then(() => {
+      isSyncing.value = false;
+    });
+};
+
 const onLogoutClick = () => {
   Factory.getAuthLocalStorageService().clearLocalAuthData();
   LogbookLocalService.clearLocalLogbooksData();
@@ -49,6 +59,13 @@ const onLogoutClick = () => {
           label="logout"
           @click="onLogoutClick"
           :disable="!store.username"
+        />
+        <q-btn
+          color="primary"
+          icon="mdi-sync"
+          label="sync"
+          @click="onSyncClick"
+          :disable="!store.username || !store.serverAddress || isSyncing"
         />
       </q-card-actions>
 

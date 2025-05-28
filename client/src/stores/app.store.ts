@@ -3,6 +3,7 @@ import {
   Notify,
   QBreadcrumbsElProps,
   QNotifyCreateOptions,
+  QNotifyUpdateOptions,
   QTabProps,
   useQuasar,
 } from "quasar";
@@ -82,6 +83,32 @@ export const useAppStore = defineStore("appStore", () => {
     if (caption) opts.caption = caption;
     Notify.create(opts);
   };
+
+  const syncNotif: Ref<((props?: QNotifyUpdateOptions) => void) | undefined> =
+    ref();
+
+  const syncNotifyProps: QNotifyCreateOptions = {
+    group: false,
+    timeout: 0,
+    spinner: true,
+    color: "teal-8",
+    message: "Synchronizing...",
+  };
+  const startSyncNotif = (options?: QNotifyUpdateOptions) => {
+    syncNotif.value = $q.notify(options ?? syncNotifyProps);
+  };
+  const updateSyncNotif = (options?: QNotifyUpdateOptions) => {
+    if (syncNotif.value) syncNotif.value(options);
+  };
+  const stopSyncNotif = () => {
+    if (syncNotif.value)
+      syncNotif.value({
+        icon: "done",
+        spinner: false,
+        message: "Synchronization done!",
+        timeout: 2000,
+      });
+  };
   //#endregion
 
   return {
@@ -96,5 +123,8 @@ export const useAppStore = defineStore("appStore", () => {
     serverAddress,
     username,
     accountCrumb,
+    startSyncNotif,
+    updateSyncNotif,
+    stopSyncNotif,
   };
 });
