@@ -1,6 +1,6 @@
 {
   "name": "mediko-client",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Cross-platform application with Vue, Quasar",
   "productName": "Mediko",
   "author": "Rafal <rafal.kowalski@student.hogent.be>",
