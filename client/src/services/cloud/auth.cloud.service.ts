@@ -7,6 +7,7 @@ import { IAuthLocalStorage } from "../local/auth.local.service";
 import { LogbookLocalService } from "../local/logbook.local.service";
 import { QVueGlobals, useQuasar } from "quasar";
 import { isSpaPlatform } from "src/utils/app-utils";
+import Factory from "../service-factory";
 const backend_url_env = import.meta.env.VITE_BACKEND_BASE_URL;
 const store = useAppStore();
 
@@ -42,6 +43,7 @@ export class AuthService {
           `You are successful signed in as ${store.username}`
         );
         LogbookLocalService.clearLocalLogbooksData();
+        Factory.getSyncService().syncLogbooks();
       }
     } catch (error: any) {
       store.handleError("Failed to login", error.response?.data?.message);
@@ -63,6 +65,7 @@ export class AuthService {
 
         store.username = response.data.user;
         LogbookLocalService.ensureDefaultLogbooks();
+        Factory.getSyncService().syncLogbooks();
         store.handleSuccess(
           `You are successful signed in as ${store.username}`
         );

@@ -1,6 +1,7 @@
 import { AxiosError, type AxiosInstance } from "axios";
 import Axios from "axios";
 import { AuthService } from "./cloud/auth.cloud.service";
+import { SyncService } from "./cloud/sync.service";
 import {
   AuthLocalService,
   IAuthLocalStorage,
@@ -16,6 +17,7 @@ export default class Factory {
   private static authService: AuthService;
   private static authStorageService: IAuthLocalStorage;
   private static refreshCounter: number = 0;
+  private static syncService: SyncService;
 
   //#region private methods
   private static getAxiosClient(): AxiosInstance {
@@ -80,6 +82,13 @@ export default class Factory {
       );
     }
     return this.authService;
+  }
+
+  static getSyncService() {
+    if (!this.syncService) {
+      this.syncService = new SyncService(this.getAxiosClient());
+    }
+    return this.syncService;
   }
 
   //#endregion
