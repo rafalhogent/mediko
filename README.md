@@ -49,6 +49,20 @@ or run :
 npm run electron-linux
 ```
 
+
+### Build Mobile App
+Please, make sure your platform is correctly configured for Cordova Development following [Quasar Preparation for Cordova App Docs](https://quasar.dev/quasar-cli-vite/developing-cordova-apps/preparation). Make sure the Cordova CLI, Android Studio and the required SDKs are installed.
+
+```shell
+npm install -g cordova
+```
+
+start the app in development mode:
+```shell
+quasar dev -m cordova -T [android|ios]
+```
+
+
 ## Synchronization
 Synchronization is achieved by using the [Nest.JS](https://nestjs.com/) server and [MySQL](https://www.mysql.com/) database on the backend side.
 
