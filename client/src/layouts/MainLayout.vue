@@ -106,7 +106,7 @@ const linksList: EssentialLinkProps[] = [
     title: "Github",
     caption: "github.com/rafalhogent",
     icon: "mdi-github",
-    link: "https://github.com/rafalhogent/medikohogent",
+    link: "https://github.com/rafalhogent/mediko",
   },
   {
     title: "Settings",

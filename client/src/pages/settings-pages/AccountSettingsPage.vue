@@ -6,6 +6,7 @@ import ServerEditForm from "src/components/account/ServerEditForm.vue";
 import Factory from "src/services/service-factory";
 import { useAppStore } from "src/stores/app.store";
 import { LogbookLocalService } from "src/services/local/logbook.local.service";
+import { isSpaPlatform } from "src/utils/app-utils";
 
 
 const store = useAppStore();
@@ -69,7 +70,7 @@ const onLogoutClick = () => {
         />
       </q-card-actions>
 
-      <div class="row no-wrap items-center q-mt-xl q-pa-sm q-pl-lg">
+      <div v-if="!isSpaPlatform($q)" class="row no-wrap items-center q-mt-xl q-pa-sm q-pl-lg">
         <span class="text-weight-bold q-mx-md">Server address:</span>
         <span class="text-subtitle:">{{
           store.serverAddress ?? "undefined"
@@ -77,8 +78,7 @@ const onLogoutClick = () => {
         <q-space />
         <q-btn
           color="primary"
-          icon="mdi-pencil-outline"
-          label="edit"
+          icon="mdi-pencil-outline"          
           @click="() => {showServerEditDialog = true}"
         />
       </div>
