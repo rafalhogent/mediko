@@ -14,14 +14,16 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "cordova-android": "^14.0.1",
-    "cordova-plugin-android-dark-mode-support": "^2.0.0"
+    "cordova-plugin-android-dark-mode-support": "^2.0.0",
+    "cordova-plugin-splashscreen": "^6.0.1"
   },
   "cordova": {
     "platforms": [
       "android"
     ],
     "plugins": {
-      "cordova-plugin-android-dark-mode-support": {}
+      "cordova-plugin-android-dark-mode-support": {},
+      "cordova-plugin-splashscreen": {}
     }
   }
 }
