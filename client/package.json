@@ -1,6 +1,6 @@
 {
   "name": "mediko-client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Cross-platform application with Vue, Quasar",
   "productName": "Mediko",
   "author": "Rafal <rafal.kowalski@student.hogent.be>",
@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
-    "electron-linux": "quasar dev -m electron -- --gtk-version=3",
+    "electron-linux": "quasar dev -m electron -- --gtk-version=3 --no-sandbox --disable-setuid-sandbox",
     "build": "quasar build",
     "postinstall": "quasar prepare"
   },

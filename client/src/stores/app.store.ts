@@ -84,6 +84,7 @@ export const useAppStore = defineStore("appStore", () => {
     Notify.create(opts);
   };
 
+  const inSync = ref(false);
   const syncNotif: Ref<((props?: QNotifyUpdateOptions) => void) | undefined> =
     ref();
 
@@ -126,5 +127,6 @@ export const useAppStore = defineStore("appStore", () => {
     startSyncNotif,
     updateSyncNotif,
     stopSyncNotif,
+    inSync,
   };
 });

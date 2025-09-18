@@ -1,14 +1,24 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="mdi-heart-pulse"
+      <q-toolbar class="q-pr-sm">
+        <div v-if="appStore.inSync" class="q-mx-md">
+          <q-spinner-radio
+            size="md"
+            style="cursor: pointer"
+            @click="toggleLeftDrawer"
+          />
+          <q-tooltip :offset="[0, 10]">Synchronizing ...</q-tooltip>
+        </div>
+
+        <q-icon
+          v-else
+          class="q-mx-md"
           aria-label="Menu"
           @click="toggleLeftDrawer"
+          :size="'md'"
+          name="mdi-heart-pulse"
+          style="cursor: pointer"
         />
         <q-space />
 
@@ -94,6 +104,7 @@ import EssentialLink, {
 import { useAppStore } from "src/stores/app.store";
 import { LogbookLocalService } from "src/services/local/logbook.local.service";
 import Factory from "src/services/service-factory";
+import { useRouter } from "vue-router";
 
 const linksList: EssentialLinkProps[] = [
   {
@@ -126,5 +137,6 @@ onMounted(() => {
   LogbookLocalService.ensureDefaultLogbooks();
   Factory.getAuthService().loadAuthDataFromStorage();
   Factory.getAuthService().ensureBackendUrlLoaded();
+  useRouter().push('logbook')
 });
 </script>

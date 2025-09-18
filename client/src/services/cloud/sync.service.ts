@@ -29,10 +29,12 @@ export class SyncService {
 
   async syncAllData() {
     store.startSyncNotif();
+    store.inSync = true
     Promise.all([
       await this.syncLogbooks(),
     ]).then(() => {
       store.stopSyncNotif();
+      store.inSync = false
     });
   }
 }

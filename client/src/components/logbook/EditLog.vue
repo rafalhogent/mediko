@@ -3,8 +3,10 @@ import { DateTime } from "luxon";
 import { Log } from "src/models/logbook/log";
 import { Logbook } from "src/models/logbook/logbook";
 import { LogbookLocalService } from "src/services/local/logbook.local.service";
+import Factory from "src/services/service-factory";
 import { useAppStore } from "src/stores/app.store";
 import { onMounted, Ref, ref } from "vue";
+import { delay } from "src/utils/app-utils";
 const store = useAppStore();
 
 //#region types, props
@@ -63,8 +65,17 @@ const submitForm = () => {
     }
     try {
       LogbookLocalService.upsertLog(lg, props.logbook.id);
+      if (store.username) {
+        store.inSync = true;
+        Factory.getSyncService()
+          .syncLogbooks()
+          .then(async () => {
+            await delay(700);
+            store.inSync = false;
+          });
+      }
     } catch (error: any) {
-      store.handleError('Failed to save Log', error.message);
+      store.handleError("Failed to save Log", error.message);
     } finally {
       emit("submited", lg);
     }
