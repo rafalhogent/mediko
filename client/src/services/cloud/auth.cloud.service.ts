@@ -6,7 +6,6 @@ import { useAppStore } from "src/stores/app.store";
 import { IAuthLocalStorage } from "../local/auth.local.service";
 import { LogbookLocalService } from "../local/logbook.local.service";
 import { QVueGlobals, useQuasar } from "quasar";
-import { isSpaPlatform } from "src/utils/app-utils";
 import Factory from "../service-factory";
 const backend_url_env = import.meta.env.VITE_BACKEND_BASE_URL;
 const store = useAppStore();
@@ -134,10 +133,7 @@ export class AuthService {
   }
 
   ensureBackendUrlLoaded() {
-    if (
-      !this.storageService.getCloudServerAddress()?.length &&
-      isSpaPlatform(this.quasarGlobals)
-    ) {
+    if (!this.storageService.getCloudServerAddress()?.length) {
       this.loadBackendUrlFromEnv();
     } else {
       this.refreshBackendUrlFromStorage();

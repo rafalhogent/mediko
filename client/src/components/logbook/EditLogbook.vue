@@ -3,6 +3,7 @@ import { Logbook } from "src/models/logbook/logbook";
 import { LogbookLocalService } from "src/services/local/logbook.local.service";
 import { onMounted, Ref, ref } from "vue";
 import { useAppStore } from "src/stores/app.store";
+import Factory from "src/services/service-factory";
 
 const store = useAppStore();
 
@@ -32,10 +33,11 @@ const viewModel: Ref<Logbook> = ref({ name: "" } as Logbook);
 const submitForm = () => {
   try {
     LogbookLocalService.upsertLogbookDefinition(viewModel.value);
-    store.handleSuccess(`Logbook ${viewModel.value.name} saved`)
+    Factory.getSyncService().onSyncLogbooks();
   } catch (error: any) {
-    store.handleError('Failed to save Logbook definition', error.message);
+    store.handleError("Failed to save Logbook definition", error.message);
   } finally {
+    store.handleSuccess(`Logbook ${viewModel.value.name} saved`);
     emit("submitted");
   }
 };

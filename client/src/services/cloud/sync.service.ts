@@ -20,21 +20,28 @@ export class SyncService {
         lastSyncMoment: undefined,
       });
       LogbookLocalService.saveLogbooksData(resp.data);
-      await delay(1000);
     } catch (error: any) {
-      store.handleError('Sync failed', error?.message);
-      console.log(error);
+      store.handleError("Sync failed", error?.message);
+    }
+  }
+
+  onSyncLogbooks() {
+    if (store.username) {
+      store.inSync = true;
+      this.syncLogbooks().then(async () => {
+        await delay(1500);
+        store.inSync = false;
+      });
     }
   }
 
   async syncAllData() {
     store.startSyncNotif();
-    store.inSync = true
-    Promise.all([
-      await this.syncLogbooks(),
-    ]).then(() => {
+    store.inSync = true;
+    Promise.all([await this.syncLogbooks()]).then(async () => {
+      await delay(1000);
       store.stopSyncNotif();
-      store.inSync = false
+      store.inSync = false;
     });
   }
 }

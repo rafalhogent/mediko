@@ -65,15 +65,7 @@ const submitForm = () => {
     }
     try {
       LogbookLocalService.upsertLog(lg, props.logbook.id);
-      if (store.username) {
-        store.inSync = true;
-        Factory.getSyncService()
-          .syncLogbooks()
-          .then(async () => {
-            await delay(700);
-            store.inSync = false;
-          });
-      }
+      Factory.getSyncService().onSyncLogbooks();
     } catch (error: any) {
       store.handleError("Failed to save Log", error.message);
     } finally {

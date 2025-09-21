@@ -70,7 +70,8 @@ const onLogoutClick = () => {
         />
       </q-card-actions>
 
-      <div v-if="!isSpaPlatform($q)" class="row no-wrap items-center q-mt-xl q-pa-sm q-pl-lg">
+      <!-- Edit server address -->
+      <!-- <div v-if="!isSpaPlatform($q)" class="row no-wrap items-center q-mt-xl q-pa-sm q-pl-lg">
         <span class="text-weight-bold q-mx-md">Server address:</span>
         <span class="text-subtitle:">{{
           store.serverAddress ?? "undefined"
@@ -81,7 +82,7 @@ const onLogoutClick = () => {
           icon="mdi-pencil-outline"          
           @click="() => {showServerEditDialog = true}"
         />
-      </div>
+      </div> -->
     </q-card>
   </q-page>
   <q-dialog v-model="showLoginDialog">
